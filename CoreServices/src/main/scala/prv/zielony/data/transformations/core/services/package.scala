@@ -1,5 +1,6 @@
 package prv.zielony.data.transformations.core
 
+import akka.actor.Address
 import cats.data.Reader
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -29,5 +30,10 @@ package object services {
     Reader[Either[L, X], Either[L, Y]] { eitherXOrL =>
       eitherXOrL.map(x => original.run(x))
     }
+  }
+
+  implicit class AddressBuilder(context: StringContext) {
+    def address( protocol: String, systemName: String, host: String, port: Int): Address =
+      Address(protocol, systemName, host, port)
   }
 }
